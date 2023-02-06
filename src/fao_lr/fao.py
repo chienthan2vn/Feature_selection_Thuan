@@ -2,10 +2,9 @@
 
 import numpy as np
 from numpy.random import rand
-# import sys
-# sys.path.append("./src")
-# from pso_lr import fun
-from fun import fun
+import sys
+sys.path.append("./src")
+from fao_lr.fun import fun
 
 
 def init_position(lb, ub, N, dim):

@@ -1,6 +1,8 @@
 import numpy as np
 from numpy.random import rand
-from fun import fun
+import sys
+sys.path.append("./src")
+from pso_lr.fun import fun
 
 
 def init_position(lb, ub, N, dim):
