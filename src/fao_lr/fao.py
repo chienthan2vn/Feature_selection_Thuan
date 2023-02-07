@@ -1,5 +1,3 @@
-#[2010]-"Firefly algorithm,stochastic test functions and design optimization" 
-
 import numpy as np
 from numpy.random import rand
 import sys
