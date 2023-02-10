@@ -2,7 +2,7 @@ import numpy as np
 from numpy.random import rand, randint
 import sys
 sys.path.append("./src")
-from cso_lr.fun import fun
+from tlbo_lr.fun import fun
 import math
 
 
@@ -106,7 +106,7 @@ def jfs(xtrain, ytrain, opts):
             Xparter = X[randint(N),:]
             Xparter_bin = binary_conversion(Xparter, thres, 1, dim)
             fitparter = fun(xtrain, ytrain, Xparter_bin, opts)
-            
+
             if(fit[i,0] < fitparter):
                 Xnew = X[i,:] + r*(X[i,:] - Xparter)
             else:
