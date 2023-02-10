@@ -5,8 +5,8 @@ with open("README.md", "r", encoding = "utf-8") as fh:
 
 setup(
     name='Feature_selection_Thuan',
-    version='0.0.1',
-    description='Feature Selection using PSO_LR.',
+    version='0.0.2',
+    description='Feature Selection',
     url='https://github.com/chienthan2vn/Feature_selection_Thuan',
     author='Thuan Luong',
     author_email='thuanluong19102001@gmail.com',
