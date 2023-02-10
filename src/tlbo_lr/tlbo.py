@@ -39,13 +39,13 @@ def jfs(xtrain, ytrain, opts):
     # Parameter
     ub = 1
     lb = 0
-    thres = 0
-    r = rand(1)
+    thres = 0.5
+    r = rand(1) #0 to 1
 
     N           = opts['N']
     max_iter    = opts['max_iter']
-    if 'Tf' in opts:
-        Tf = opts['Tf']
+    # if 'Tf' in opts:
+    #     Tf = opts['Tf']
     if 'r' in opts:
         r = opts['r']
 
