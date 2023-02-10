@@ -102,6 +102,10 @@ def jfs(xtrain, ytrain, opts):
                 X[i,:] = Xnew
                 fit[i,0] = fnew
 
+            if fitG > fnew:
+                Xgb[0,:] = Xnew
+                fitG     = fnew
+
             # Learning phase
             Xparter = X[randint(N),:]
             Xparter_bin = binary_conversion(Xparter, thres, 1, dim)
@@ -119,9 +123,13 @@ def jfs(xtrain, ytrain, opts):
             fitnew = fun(xtrain, ytrain, Xbinnew[0,:], opts)
 
             if(fitnew < fit[i,0]):
+                X[i,:] = Xnew
+                fit[i,0]     = fitnew
+            
+            # update best score
+            if (fitG > fitnew):
                 Xgb[0,:] = Xnew
                 fitG     = fitnew
-
 
         # Store result
         curve[0,t] = fitG.copy()
