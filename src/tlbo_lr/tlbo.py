@@ -1,5 +1,5 @@
 import numpy as np
-from numpy.random import rand
+from numpy.random import rand, randint
 import sys
 sys.path.append("./src")
 from cso_lr.fun import fun
@@ -85,10 +85,12 @@ def jfs(xtrain, ytrain, opts):
         for i in range(N):
             Xmean = np.sum(X, axis=0)/np.size(X, axis=0)
             Tf = round(1+rand(1))
-            X = X + r*(Xgb - Tf*Xmean)
+            Xnew = X[i,:] + r*(Xgb - Tf*Xmean)
+            # Boudary
+            Xnew = boundary(Xnew, lb, ub)
 
             temp = np.zeros([1, dim], dtype='float')
-            temp[0,:] = X[i,:]  
+            temp[0,:] = Xnew 
             Xbin = binary_conversion(temp, thres, 1, dim)
 
             # fitness
@@ -98,7 +100,27 @@ def jfs(xtrain, ytrain, opts):
             if fit[i,0] < fitG:
                 Xgb[0,:] = X[i,:]
                 fitG     = fit[i,0]
-                
+
+            # Learning phase
+            Xparter = X[randint(N),:]
+            Xparter_bin = binary_conversion(Xparter, thres, 1, dim)
+            fitparter = fun(xtrain, ytrain, Xparter_bin, opts)
+            if(fit[i,0] < fitparter):
+                Xnew = X[i,:] + r*(X[i,:] - Xparter)
+            else:
+                Xnew = X[i,:] - r*(X[i,:] - Xparter)
+
+            Xnew = boundary(Xnew, lb, ub)
+            temp[0,:] = Xnew 
+            Xbinnew = binary_conversion(temp, thres, 1, dim)
+
+            fitnew = fun(xtrain, ytrain, Xbinnew[0,:], opts)
+
+            if(fitnew < fit[i,0]):
+                Xgb[0,:] = Xnew
+                fitG     = fitnew
+
+
         # Store result
         curve[0,t] = fitG.copy()
         print("Generation:", t + 1)
