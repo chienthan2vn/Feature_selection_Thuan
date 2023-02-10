@@ -83,6 +83,7 @@ def jfs(xtrain, ytrain, opts):
 
     while t < max_iter:
         for i in range(N):
+            # Teaching phase
             Xmean = np.sum(X, axis=0)/np.size(X, axis=0)
             Tf = round(1+rand(1))
             Xnew = X[i,:] + r*(Xgb - Tf*Xmean)
@@ -94,17 +95,18 @@ def jfs(xtrain, ytrain, opts):
             Xbin = binary_conversion(temp, thres, 1, dim)
 
             # fitness
-            fit[i,0]  = fun(xtrain, ytrain, Xbin[0,:], opts)
+            fnew  = fun(xtrain, ytrain, Xbin[0,:], opts)
             
-            # best update        
-            if fit[i,0] < fitG:
-                Xgb[0,:] = X[i,:]
-                fitG     = fit[i,0]
+            # update X[i]       
+            if fit[i,0] > fnew:
+                X[i,:] = Xnew
+                fit[i,0] = fnew
 
             # Learning phase
             Xparter = X[randint(N),:]
             Xparter_bin = binary_conversion(Xparter, thres, 1, dim)
             fitparter = fun(xtrain, ytrain, Xparter_bin, opts)
+            
             if(fit[i,0] < fitparter):
                 Xnew = X[i,:] + r*(X[i,:] - Xparter)
             else:
