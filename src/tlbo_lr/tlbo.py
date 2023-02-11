@@ -85,14 +85,14 @@ def jfs(xtrain, ytrain, opts):
         for i in range(N):
             # Teaching phase
             Xmean = np.sum(X, axis=0)/np.size(X, axis=0)
-            Tf = round(1+rand(1)[0])
-            Xnew = np.zeros([1, dim], dtype='float') 
-            Xnew[0,:] = X[i,:] + r*(Xgb - Tf*Xmean)
+            Tf = round(1+rand(1)[0]) 
+            Xnew = X[i,:] + r*(Xgb - Tf*Xmean)
             # Boudary
-            Xnew[0,:] = boundary(Xnew[0,:], lb[0,i], ub[0,i])
+            for d in range(dim):
+                Xnew[d] = boundary(Xnew[d], lb[0,d], ub[0,d])
 
             temp = np.zeros([1, dim], dtype='float')
-            temp[0,:] = Xnew[0,:]
+            temp[0,:] = Xnew 
             Xbin = binary_conversion(temp, thres, 1, dim)
 
             # fitness
@@ -100,11 +100,11 @@ def jfs(xtrain, ytrain, opts):
             
             # update X[i]       
             if fit[i,0] > fnew:
-                X[i,:] = Xnew[0,:]
+                X[i,:] = Xnew
                 fit[i,0] = fnew
 
             if fitG > fnew:
-                Xgb[0,:] = Xnew[0,:]
+                Xgb[0,:] = Xnew
                 fitG     = fnew
 
             # Learning phase
@@ -113,23 +113,24 @@ def jfs(xtrain, ytrain, opts):
             fitparter = fun(xtrain, ytrain, Xparter_bin, opts)
 
             if(fit[i,0] < fitparter):
-                Xnew[0,:] = X[i,:] + r*(X[i,:] - Xparter)
+                Xnew = X[i,:] + r*(X[i,:] - Xparter)
             else:
-                Xnew[0,:] = X[i,:] - r*(X[i,:] - Xparter)
+                Xnew = X[i,:] - r*(X[i,:] - Xparter)
 
-            Xnew[0,:] = boundary(Xnew[0,:], lb[0,i], ub[0,i])
-            temp[0,:] = Xnew[0,:]
+            for d in range(dim):
+                Xnew[d] = boundary(Xnew[d], lb[0,d], ub[0,d])
+            temp[0,:] = Xnew 
             Xbinnew = binary_conversion(temp, thres, 1, dim)
 
             fitnew = fun(xtrain, ytrain, Xbinnew[0,:], opts)
 
             if(fitnew < fit[i,0]):
-                X[i,:] = Xnew[0,:]
+                X[i,:] = Xnew
                 fit[i,0]     = fitnew
             
             # update best score
             if (fitG > fitnew):
-                Xgb[0,:] = Xnew[0,:]
+                Xgb[0,:] = Xnew
                 fitG     = fitnew
 
         # Store result
