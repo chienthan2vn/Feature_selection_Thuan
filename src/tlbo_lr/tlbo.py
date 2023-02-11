@@ -88,7 +88,7 @@ def jfs(xtrain, ytrain, opts):
             Tf = round(1+rand(1)[0])
             Xnew = X[i,:] + r*(Xgb - Tf*Xmean)
             # Boudary
-            Xnew = boundary(Xnew, lb, ub)
+            Xnew = boundary(Xnew, lb[0,d], ub[0,d])
 
             temp = np.zeros([1, dim], dtype='float')
             temp[0,:] = Xnew 
@@ -116,7 +116,7 @@ def jfs(xtrain, ytrain, opts):
             else:
                 Xnew = X[i,:] - r*(X[i,:] - Xparter)
 
-            Xnew = boundary(Xnew, lb, ub)
+            Xnew = boundary(Xnew, lb[0,d], ub[0,d])
             temp[0,:] = Xnew 
             Xbinnew = binary_conversion(temp, thres, 1, dim)
 
