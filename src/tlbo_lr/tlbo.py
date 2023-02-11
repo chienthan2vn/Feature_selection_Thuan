@@ -86,7 +86,7 @@ def jfs(xtrain, ytrain, opts):
             # Teaching phase
             Xmean = np.sum(X, axis=0)/np.size(X, axis=0)
             Tf = round(1+rand(1)[0]) 
-            Xnew = X[i,:] + r*(Xgb - Tf*Xmean)
+            Xnew = X[i,:] + r*(Xgb[0,:] - Tf*Xmean)
             # Boudary
             for d in range(dim):
                 Xnew[d] = boundary(Xnew[d], lb[0,d], ub[0,d])
