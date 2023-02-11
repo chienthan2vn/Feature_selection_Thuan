@@ -108,7 +108,7 @@ def jfs(xtrain, ytrain, opts):
                 fitG     = fnew
 
             # Learning phase
-            Xparter = X[randint(N),:]
+            Xparter = np.expand_dims(X[randint(N),:], axis=0)
             Xparter_bin = binary_conversion(Xparter, thres, 1, dim)
             fitparter = fun(xtrain, ytrain, Xparter_bin, opts)
 
