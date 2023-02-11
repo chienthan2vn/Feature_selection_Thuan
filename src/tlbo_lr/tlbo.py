@@ -110,17 +110,17 @@ def jfs(xtrain, ytrain, opts):
             # Learning phase
             Xparter = np.expand_dims(X[randint(N),:], axis=0)
             Xparter_bin = binary_conversion(Xparter, thres, 1, dim)
-            fitparter = fun(xtrain, ytrain, Xparter_bin, opts)
+            fitparter = fun(xtrain, ytrain, Xparter_bin[0,:], opts)
 
             if(fit[i,0] < fitparter):
-                Xnew = X[i,:] + r*(X[i,:] - Xparter)
+                Xnew = X[i,:] + r*(X[i,:] - Xparter[0,:])
             else:
-                Xnew = X[i,:] - r*(X[i,:] - Xparter)
+                Xnew = X[i,:] - r*(X[i,:] - Xparter[0,:])
 
             for d in range(dim):
                 Xnew[d] = boundary(Xnew[d], lb[0,d], ub[0,d])
-            temp[0,:] = Xnew 
-            Xbinnew = binary_conversion(temp, thres, 1, dim)
+
+            Xbinnew = binary_conversion(np.expand_dims(Xnew, axis=0), thres, 1, dim)
 
             fitnew = fun(xtrain, ytrain, Xbinnew[0,:], opts)
 
