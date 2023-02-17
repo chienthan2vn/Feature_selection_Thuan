@@ -68,7 +68,9 @@ def jfs(xtrain, ytrain, opts):
         c1   = opts['c1']
     if 'c2' in opts:
         c2   = opts['c2'] 
-    
+    imbalanced = 0
+    if 'imbalanced' in opts:
+        imbalanced = opts['imbalanced']
     # Dimension
     dim = np.size(xtrain, 1)
     if np.size(lb) == 1:
@@ -94,7 +96,7 @@ def jfs(xtrain, ytrain, opts):
         
         # Fitness
         for i in range(N):
-            fit[i,0] = fun(xtrain, ytrain, Xbin[i,:], opts, 0.9)
+            fit[i,0] = fun(xtrain, ytrain, Xbin[i,:], opts, imbalanced)
             if fit[i,0] < fitP[i,0]:
                 Xpb[i,:]  = X[i,:]
                 fitP[i,0] = fit[i,0]

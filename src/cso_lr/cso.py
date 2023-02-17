@@ -60,7 +60,6 @@ def jfs(xtrain, ytrain, opts):
     Pa     = 0.25     # discovery rate
     alpha  = 1        # constant
     beta   = 1.5      # levy component
-    
     N          = opts['N']
     max_iter   = opts['T']
     if 'Pa' in opts:
@@ -69,6 +68,10 @@ def jfs(xtrain, ytrain, opts):
         alpha   = opts['alpha'] 
     if 'beta' in opts:
         beta  = opts['beta'] 
+    imbalanced = 0
+    if 'imbalanced' in opts:
+        imbalanced = opts['imbalanced']
+    
         
     # Dimension
     dim = np.size(xtrain, 1)
@@ -88,7 +91,7 @@ def jfs(xtrain, ytrain, opts):
     fitG  = float('inf')
     
     for i in range(N):
-        fit[i,0] = fun(xtrain, ytrain, Xbin[i,:], opts)
+        fit[i,0] = fun(xtrain, ytrain, Xbin[i,:], opts, imbalanced)
         if fit[i,0] < fitG:
             Xgb[0,:] = X[i,:]
             fitG     = fit[i,0]
@@ -120,7 +123,7 @@ def jfs(xtrain, ytrain, opts):
         
         # Greedy selection
         for i in range(N):
-            Fnew = fun(xtrain, ytrain, Xbin[i,:], opts)
+            Fnew = fun(xtrain, ytrain, Xbin[i,:], opts, imbalanced)
             if Fnew <= fit[i,0]:
                 X[i,:]   = Xnew[i,:]
                 fit[i,0] = Fnew             
@@ -156,7 +159,7 @@ def jfs(xtrain, ytrain, opts):
         
         # Greedy selection
         for i in range(N):
-            Fnew = fun(xtrain, ytrain, Xbin[i,:], opts)
+            Fnew = fun(xtrain, ytrain, Xbin[i,:], opts, imbalanced)
             if Fnew <= fit[i,0]:
                 X[i,:]   = Xnew[i,:]
                 fit[i,0] = Fnew             
