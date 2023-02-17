@@ -1,8 +1,8 @@
 from sklearn.linear_model import LogisticRegression
 import numpy as np
-def fun(x, y, fea, opts, alpha=0.9, imbalanced):
+def fun(x, y, fea, opts, alpha=0.9):
     class_weight = None
-    if imbalanced == 1: class_weight = "balanced"
+    if opts['imbalanced'] == 1: class_weight = "balanced"
     if np.count_nonzero(fea) == 0: X_subset = x
     else: X_subset = x[:,fea==1]
     lr = LogisticRegression(solver="lbfgs", multi_class="multinomial", class_weight=class_weight)

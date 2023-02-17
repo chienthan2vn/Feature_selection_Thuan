@@ -70,7 +70,7 @@ def jfs(xtrain, ytrain, opts):
     fitG  = float('inf')
 
     for i in range(N):
-        fit[i,0] = fun(xtrain, ytrain, Xbin[i,:], opts, imbalanced)
+        fit[i,0] = fun(xtrain, ytrain, Xbin[i,:], opts)
         if fit[i,0] < fitG:
             Xgb[0,:] = X[i,:]
             fitG     = fit[i,0]
@@ -99,7 +99,7 @@ def jfs(xtrain, ytrain, opts):
             Xbin = binary_conversion(temp, thres, 1, dim)
 
             # fitness
-            fnew  = fun(xtrain, ytrain, Xbin[0,:], opts, imbalanced)
+            fnew  = fun(xtrain, ytrain, Xbin[0,:], opts)
             
             # update X[i]       
             if fit[i,0] > fnew:
@@ -113,7 +113,7 @@ def jfs(xtrain, ytrain, opts):
             # Learning phase
             Xparter = np.expand_dims(X[randint(N),:], axis=0)
             Xparter_bin = binary_conversion(Xparter, thres, 1, dim)
-            fitparter = fun(xtrain, ytrain, Xparter_bin[0,:], opts, imbalanced)
+            fitparter = fun(xtrain, ytrain, Xparter_bin[0,:], opts)
 
             if(fit[i,0] < fitparter):
                 Xnew = X[i,:] + r*(X[i,:] - Xparter[0,:])
@@ -125,7 +125,7 @@ def jfs(xtrain, ytrain, opts):
 
             Xbinnew = binary_conversion(np.expand_dims(Xnew, axis=0), thres, 1, dim)
 
-            fitnew = fun(xtrain, ytrain, Xbinnew[0,:], opts, imbalanced)
+            fitnew = fun(xtrain, ytrain, Xbinnew[0,:], opts)
 
             if(fitnew < fit[i,0]):
                 X[i,:] = Xnew

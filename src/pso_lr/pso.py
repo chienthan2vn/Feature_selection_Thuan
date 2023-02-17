@@ -96,7 +96,7 @@ def jfs(xtrain, ytrain, opts):
         
         # Fitness
         for i in range(N):
-            fit[i,0] = fun(xtrain, ytrain, Xbin[i,:], opts, imbalanced)
+            fit[i,0] = fun(xtrain, ytrain, Xbin[i,:], opts)
             if fit[i,0] < fitP[i,0]:
                 Xpb[i,:]  = X[i,:]
                 fitP[i,0] = fit[i,0]
